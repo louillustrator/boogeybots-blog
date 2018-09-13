@@ -13,5 +13,5 @@ Deploy:
         - npm install
         - npm install -g now --unsafe-perm
     script:
-        - NOW_URL=$(now --token=${NOW_TOKEN})
+        - NOW_URL=$(now --token=${NOW_TOKEN} --public)
         - now alias --token=${NOW_TOKEN} ${NOW_URL} ${SITE_NAME}
