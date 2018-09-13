@@ -1,0 +1,19 @@
+image: node:10.10.0
+
+cache:
+    paths:
+        - node_modules/
+
+stages:
+    - deploy
+
+Deploy:
+    stage: deploy
+    tags:
+        - node
+    before_script:
+        - npm install
+        - npm install -g now --unsafe-perm
+    script:
+        - NOW_URL=$(now --token=${NOW_TOKEN})
+        - now alias --token=${NOW_TOKEN} ${NOW_URL} ${SITE_NAME}
