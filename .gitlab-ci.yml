@@ -11,6 +11,7 @@ Deploy:
     stage: deploy
     before_script:
         - npm install
+        - node bin/config
         - npm install -g now --unsafe-perm
     script:
         - NOW_URL=$(now --token=${NOW_TOKEN} --public)
