@@ -1,11 +1,3 @@
-### Node Express template project
+# The BoogeyBots Team Website
 
-This project is based on a GitLab [Project Template](https://docs.gitlab.com/ee/gitlab-basics/create-project.html).
-
-Improvements can be proposed in the [original project](https://gitlab.com/gitlab-org/project-templates/express).
-
-### CI/CD with Auto DevOps
-
-This template is compatible with [Auto DevOps](https://docs.gitlab.com/ee/topics/autodevops/).
-
-If Auto DevOps is not already enabled for this project, you can [turn it on](https://docs.gitlab.com/ee/topics/autodevops/#enabling-auto-devops) in the project settings.
+This repository hosts the website for the FIRST Tech Challenge team BoogeyBots.
