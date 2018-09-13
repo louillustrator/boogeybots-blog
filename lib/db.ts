@@ -11,6 +11,15 @@ let db: Database = undefined;
 export function configureDatabase() {
     db = new Database(dbFilePath);
 
+    db.prepare('CREATE TABLE IF NOT EXISTS posts (\n' +
+        '  id          INTEGER PRIMARY KEY AUTOINCREMENT,\n' +
+        '  title       TEXT    NOT NULL ,\n' +
+        '  description TEXT    NOT NULL ,\n' +
+        '  date        DATE    NOT NULL ,\n' +
+        '  authors     TEXT             ,\n' +
+        '  filename    TEXT    NOT NULL\n' +
+        ');');
+
     let filenames: string[] = db.prepare('SELECT filename FROM posts').all().map(x => x.filename);
     let postnames: string[] = posts.getPostNames();
 
@@ -19,6 +28,7 @@ export function configureDatabase() {
 
     notNeeded.forEach(filename => {
         db.prepare('DELETE FROM posts WHERE filename=?').run(filename);
+        console.log(`>> Deleted ${filename} from database`);
     });
 
     missing.forEach(filename => {
@@ -42,5 +52,7 @@ export function configureDatabase() {
                 filename
             ]);
         }
+
+        console.log(`>> Added ${filename} to database`);
     })
 }
