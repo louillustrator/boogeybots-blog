@@ -6,6 +6,8 @@
     <EXTENSION ID="com.jetbrains.nodejs.run.NodeJSStartBrowserRunConfigurationExtension">
       <browser start="true" url="http://localhost:3000" />
     </EXTENSION>
-    <method v="2" />
+    <method v="2">
+      <option name="RunConfigurationTask" enabled="true" run_configuration_name="Database Config" run_configuration_type="NodeJSConfigurationType" />
+    </method>
   </configuration>
 </component>
