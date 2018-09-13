@@ -9,8 +9,6 @@ stages:
 
 Deploy:
     stage: deploy
-    tags:
-        - node
     before_script:
         - npm install
         - npm install -g now --unsafe-perm
