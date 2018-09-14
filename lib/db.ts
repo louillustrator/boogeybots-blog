@@ -3,8 +3,6 @@ import path = require("path");
 import fs = require("fs");
 import posts = require("./posts");
 import {Post} from "./posts";
-import {file} from "babel-types";
-
 
 const dbFilePath = path.join(__dirname, '../database/blog.db');
 
