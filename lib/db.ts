@@ -2,6 +2,7 @@ import Database = require("better-sqlite3");
 import path = require("path");
 import posts = require("./posts");
 import {Post} from "./posts";
+import {file} from "babel-types";
 
 
 const dbFilePath = path.join(__dirname, '../database/blog.db');
@@ -25,34 +26,60 @@ export function configureDatabase() {
 
     let notNeeded = filenames.filter(x => !postnames.includes(x));
     let missing = postnames.filter(x => !filenames.includes(x));
+    let mayNeedUpdating: string[] = filenames.filter(x => postnames.includes(x));
 
     notNeeded.forEach(filename => {
-        db.prepare('DELETE FROM posts WHERE filename=?').run(filename);
+        db.prepare('DELETE FROM posts WHERE filename = @filename').run({filename: filename});
         console.log(`>> Deleted ${filename} from database`);
     });
 
     missing.forEach(filename => {
         let post: Post = posts.readPost(filename);
         let query: string = 'INSERT INTO posts';
-        if (post.authors !== null && post.authors !== undefined) {
-            query += ' (title, description, date, authors, filename) VALUES (?, ?, ?, ?, ?)';
-            db.prepare(query).run([
-                post.title,
-                post.description,
-                `${post.date.getFullYear()}-${post.date.getMonth() + 1}-${post.date.getDate()}`,
-                post.authors,
-                filename
-            ]);
+        if (post.authors) {
+            query += ' (title, description, date, authors, filename) VALUES (@title, @description, @date, @authors, @filename)';
+            db.prepare(query).run({
+                title: post.title,
+                description: post.description,
+                date: post.date,
+                authors: post.authors,
+                filename: filename
+            });
         } else {
-            query += ' (title, description, date, filename) VALUES (?, ?, ?, ?)';
-            db.prepare(query).run([
-                post.title,
-                post.description,
-                `${post.date.getFullYear()}-${post.date.getMonth() + 1}-${post.date.getDate()}`,
-                filename
-            ]);
+            query += ' (title, description, date, filename) VALUES (@title, @description, @date, @filename)';
+            db.prepare(query).run({
+                title: post.title,
+                description: post.description,
+                date: post.date,
+                filename: filename
+            });
         }
 
         console.log(`>> Added ${filename} to database`);
-    })
+    });
+
+    mayNeedUpdating.forEach(filename => {
+        let post: Post = posts.readPost(filename);
+
+        if (post.authors) {
+            let query = 'UPDATE posts SET title = @title , description = @description, date = @date, authors = @authors WHERE filename = @filename';
+            db.prepare(query).run({
+                title: post.title,
+                description: post.description,
+                date: post.date,
+                authors: post.authors,
+                filename: filename
+            });
+        } else {
+            let query = 'UPDATE posts SET title = @title , description = @description, date = @date WHERE filename = @filename';
+            db.prepare(query).run({
+                title: post.title,
+                description: post.description,
+                date: post.date,
+                filename: filename
+            });
+        }
+
+        console.log(`>> ${filename} up to date`);
+    });
 }
