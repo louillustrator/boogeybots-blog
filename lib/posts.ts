@@ -6,7 +6,7 @@ import showdown = require("showdown");
 export interface Post {
     title: string,
     description: string,
-    date: Date,
+    date: string,
     authors: string[],
     text: string
 }
@@ -28,10 +28,12 @@ export function readPost(postName: string): Post {
     let text: string = fs.readFileSync(filePath, 'utf8');
     let content = fm(text);
     let markdown: string = converter.makeHtml(content.body);
+    let date: Date = content.attributes['date'];
+    let formattedDate: string = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
     return {
         title: content.attributes['title'],
         description: content.attributes['description'],
-        date: content.attributes['date'],
+        date: formattedDate,
         authors: content.attributes['authors'],
         text: markdown
     };
