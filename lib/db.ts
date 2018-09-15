@@ -1,15 +1,18 @@
 import Database = require("better-sqlite3");
 import path = require("path");
+import fs = require("fs");
 import posts = require("./posts");
 import {Post} from "./posts";
-import {file} from "babel-types";
-
 
 const dbFilePath = path.join(__dirname, '../database/blog.db');
 
 let db: Database = undefined;
 
 export function configureDatabase() {
+    if (!fs.existsSync(path.dirname(dbFilePath))) {
+        fs.mkdirSync(path.dirname(dbFilePath));
+    }
+
     db = new Database(dbFilePath);
 
     db.prepare('CREATE TABLE IF NOT EXISTS posts (\n' +
@@ -19,7 +22,7 @@ export function configureDatabase() {
         '  date        DATE    NOT NULL ,\n' +
         '  authors     TEXT             ,\n' +
         '  filename    TEXT    NOT NULL\n' +
-        ');');
+        ');').run();
 
     let filenames: string[] = db.prepare('SELECT filename FROM posts').all().map(x => x.filename);
     let postnames: string[] = posts.getPostNames();

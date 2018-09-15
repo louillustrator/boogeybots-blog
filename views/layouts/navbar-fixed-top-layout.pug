@@ -1,0 +1,25 @@
+doctype html
+html
+  head
+    title= title
+
+    meta(name='description' content='The BoogeyBots Team Blog')
+    meta(charset="UTF-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+
+    // Fonts
+    link(rel="stylesheet", href="https://fonts.googleapis.com/css?family=Ubuntu")
+    // Icons
+    link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css")
+
+    // Bootstrap
+    link(rel='stylesheet' href='/stylesheets/bootstrap.css')
+
+    link(rel='stylesheet' href='/stylesheets/style.css')
+  body
+    include ../includes/navbar-fixed-top
+
+    block content
+
+    script(src='javascripts/jquery-3.3.1.js')
+    script(src='javascripts/bootstrap.bundle.js')

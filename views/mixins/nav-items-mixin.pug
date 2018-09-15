@@ -1,0 +1,12 @@
+mixin nav-items(activeItem)
+  -
+    var items = [
+      {text: 'Home', link: '/'},
+      {text: 'Posts', link: '/posts'},
+      {text: 'About', link: '/about'},
+      {text: 'Contact', link: '/contact'}
+      ];
+  ul.navbar-nav.mr-auto
+    each item in items
+      li.nav-item
+        a.nav-link(href=`${item.link}`, class=activeItem === item.text ? 'active' : '')= item.text
