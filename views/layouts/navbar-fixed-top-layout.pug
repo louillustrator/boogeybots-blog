@@ -3,6 +3,10 @@ html
   head
     title= title
 
+    meta(name='description' content='The BoogeyBots Team Blog')
+    meta(charset="UTF-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+
     // Fonts
     link(rel="stylesheet", href="https://fonts.googleapis.com/css?family=Ubuntu")
     // Icons
@@ -13,6 +17,8 @@ html
 
     link(rel='stylesheet' href='/stylesheets/style.css')
   body
+    include ../includes/navbar-fixed-top
+
     block content
 
     script(src='javascripts/jquery-3.3.1.js')

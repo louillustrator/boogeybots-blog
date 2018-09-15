@@ -1,6 +1,7 @@
 body {
+  margin-top: 60px;
   padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font: 1.2em "Ubuntu", Helvetica, Arial, sans-serif;
 }
 
 a {
