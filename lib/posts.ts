@@ -39,6 +39,13 @@ export function readPost(postName: string): Post {
     };
 }
 
+export function getHtmlFromPost(postName: string): string {
+    const filePath: string = postsPath + `/${postName}.md`;
+    let text: string = fs.readFileSync(filePath, 'utf8');
+    let html: string = converter.makeHtml(text);
+    return html;
+}
+
 export function getPostNames(): string[] {
     return fs.readdirSync(postsPath).map((post) => {
         return path.basename(post, '.md');

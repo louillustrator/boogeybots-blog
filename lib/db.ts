@@ -97,3 +97,7 @@ export function connectDatabase() {
         throw e;
     }
 }
+
+export function getLastRowsByDate(howMany: number) {
+    return db.prepare(`SELECT * FROM posts ORDER BY date(date) DESC LIMIT ${howMany}`).all();
+}
