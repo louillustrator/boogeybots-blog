@@ -86,3 +86,14 @@ export function configureDatabase() {
         console.log(`>> ${filename} up to date`);
     });
 }
+
+export function connectDatabase() {
+    try {
+        db = new Database(dbFilePath);
+
+        console.log('>> Connected to the database!');
+    } catch (e) {
+        console.log(e);
+        throw e;
+    }
+}
