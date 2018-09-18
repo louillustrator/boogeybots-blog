@@ -16,12 +16,12 @@ export function configureDatabase() {
     db = new Database(dbFilePath);
 
     db.prepare('CREATE TABLE IF NOT EXISTS posts (\n' +
-        '  id          INTEGER PRIMARY KEY AUTOINCREMENT,\n' +
-        '  title       TEXT    NOT NULL ,\n' +
-        '  description TEXT    NOT NULL ,\n' +
-        '  date        DATE    NOT NULL ,\n' +
-        '  authors     TEXT             ,\n' +
-        '  filename    TEXT    NOT NULL\n' +
+        '  id           INTEGER PRIMARY KEY AUTOINCREMENT,\n' +
+        '  title        TEXT    NOT NULL ,\n' +
+        '  description  TEXT    NOT NULL ,\n' +
+        '  date_created TEXT    NOT NULL ,\n' +
+        '  authors      TEXT             ,\n' +
+        '  filename     TEXT    NOT NULL\n' +
         ');').run();
 
     let filenames: string[] = db.prepare('SELECT filename FROM posts').all().map(x => x.filename);
@@ -40,16 +40,16 @@ export function configureDatabase() {
         let post: Post = posts.readPost(filename);
         let query: string = 'INSERT INTO posts';
         if (post.authors) {
-            query += ' (title, description, date, authors, filename) VALUES (@title, @description, @date, @authors, @filename)';
+            query += ' (title, description, date_created, authors, filename) VALUES (@title, @description, date(@date_created), @authors, @filename)';
             db.prepare(query).run({
                 title: post.title,
                 description: post.description,
-                date: post.date,
+                date_created: post.date,
                 authors: post.authors,
                 filename: filename
             });
         } else {
-            query += ' (title, description, date, filename) VALUES (@title, @description, @date, @filename)';
+            query += ' (title, description, date_created, filename) VALUES (@title, @description, date(@date_created), @filename)';
             db.prepare(query).run({
                 title: post.title,
                 description: post.description,
@@ -65,20 +65,20 @@ export function configureDatabase() {
         let post: Post = posts.readPost(filename);
 
         if (post.authors) {
-            let query = 'UPDATE posts SET title = @title , description = @description, date = @date, authors = @authors WHERE filename = @filename';
+            let query = 'UPDATE posts SET title = @title , description = @description, date_created = date(@date_created), authors = @authors WHERE filename = @filename';
             db.prepare(query).run({
                 title: post.title,
                 description: post.description,
-                date: post.date,
+                date_created: post.date,
                 authors: post.authors,
                 filename: filename
             });
         } else {
-            let query = 'UPDATE posts SET title = @title , description = @description, date = @date WHERE filename = @filename';
+            let query = 'UPDATE posts SET title = @title , description = @description, date_created = date(@date_created) WHERE filename = @filename';
             db.prepare(query).run({
                 title: post.title,
                 description: post.description,
-                date: post.date,
+                date_created: post.date,
                 filename: filename
             });
         }
@@ -99,5 +99,5 @@ export function connectDatabase() {
 }
 
 export function getLastRowsByDate(howMany: number) {
-    return db.prepare(`SELECT * FROM posts ORDER BY date(date) DESC LIMIT ${howMany}`).all();
+    return db.prepare(`SELECT * FROM posts ORDER BY date(date_created) DESC LIMIT ${howMany}`).all();
 }

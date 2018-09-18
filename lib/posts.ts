@@ -29,7 +29,12 @@ export function readPost(postName: string): Post {
     let content = fm(text);
     let markdown: string = converter.makeHtml(content.body);
     let date: Date = content.attributes['date'];
-    let formattedDate: string = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+    let formattedDate: string;
+    if (date.getMonth() + 1 < 10) {
+        formattedDate = `${date.getFullYear()}-0${date.getMonth() + 1}-${date.getDate()}`;
+    } else {
+        formattedDate = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+    }
     return {
         title: content.attributes['title'],
         description: content.attributes['description'],
