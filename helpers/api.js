@@ -1,10 +1,10 @@
-import db = require("./db");
-import posts = require("./posts");
-import {Post} from "./posts";
+const db = require("./db");
+const posts = require("./posts");
 
-export function getPosts(howMany: number, offset: number = 0): Post[] {
+function getPosts(howMany, offset = 0) {
     let dbPosts = db.getLastRowsByDate(howMany, offset);
-    let results: Post[] = [];
+    let results = [];
+
     dbPosts.forEach((p) => {
         results.push({
             title: p['title'],
@@ -14,6 +14,7 @@ export function getPosts(howMany: number, offset: number = 0): Post[] {
             text: posts.getHtmlFromPost(p['filename'])
         });
     });
-
     return results;
 }
+
+exports.getPosts = getPosts;

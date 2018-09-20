@@ -1,14 +1,13 @@
-import Database = require("better-sqlite3");
-import path = require("path");
-import fs = require("fs");
-import posts = require("./posts");
-import {Post} from "./posts";
+const Database = require("better-sqlite3");
+const path = require("path");
+const fs = require("fs");
+const posts = require("./posts");
 
 const dbFilePath = path.join(__dirname, '../database/blog.db');
 
-let db: Database = undefined;
+let db = undefined;
 
-export function configureDatabase() {
+function configureDatabase() {
     if (!fs.existsSync(path.dirname(dbFilePath))) {
         fs.mkdirSync(path.dirname(dbFilePath));
     }
@@ -24,21 +23,21 @@ export function configureDatabase() {
         '  filename     TEXT    NOT NULL\n' +
         ');').run();
 
-    let filenames: string[] = db.prepare('SELECT filename FROM posts').all().map(x => x.filename);
-    let postnames: string[] = posts.getPostNames();
+    let filenames = db.prepare('SELECT filename FROM posts').all().map(x => x.filename);
+    let postnames = posts.getPostNames();
 
     let notNeeded = filenames.filter(x => !postnames.includes(x));
     let missing = postnames.filter(x => !filenames.includes(x));
-    let mayNeedUpdating: string[] = filenames.filter(x => postnames.includes(x));
+    let mayNeedUpdating = filenames.filter(x => postnames.includes(x));
 
     notNeeded.forEach(filename => {
-        db.prepare('DELETE FROM posts WHERE filename = @filename').run({filename: filename});
+        db.prepare('DELETE FROM posts WHERE filename = @filename').run({ filename: filename });
         console.log(`>> Deleted ${filename} from database`);
     });
 
     missing.forEach(filename => {
-        let post: Post = posts.readPost(filename);
-        let query: string = 'INSERT INTO posts';
+        let post = posts.readPost(filename);
+        let query = 'INSERT INTO posts';
         if (post.authors) {
             query += ' (title, description, date_created, authors, filename) VALUES (@title, @description, date(@date_created), @authors, @filename)';
             db.prepare(query).run({
@@ -48,7 +47,8 @@ export function configureDatabase() {
                 authors: post.authors,
                 filename: filename
             });
-        } else {
+        }
+        else {
             query += ' (title, description, date_created, filename) VALUES (@title, @description, date(@date_created), @filename)';
             db.prepare(query).run({
                 title: post.title,
@@ -57,13 +57,11 @@ export function configureDatabase() {
                 filename: filename
             });
         }
-
         console.log(`>> Added ${filename} to database`);
     });
 
     mayNeedUpdating.forEach(filename => {
-        let post: Post = posts.readPost(filename);
-
+        let post = posts.readPost(filename);
         if (post.authors) {
             let query = 'UPDATE posts SET title = @title , description = @description, date_created = date(@date_created), authors = @authors WHERE filename = @filename';
             db.prepare(query).run({
@@ -73,7 +71,8 @@ export function configureDatabase() {
                 authors: post.authors,
                 filename: filename
             });
-        } else {
+        }
+        else {
             let query = 'UPDATE posts SET title = @title , description = @description, date_created = date(@date_created) WHERE filename = @filename';
             db.prepare(query).run({
                 title: post.title,
@@ -82,22 +81,24 @@ export function configureDatabase() {
                 filename: filename
             });
         }
-
         console.log(`>> ${filename} up to date`);
     });
 }
+exports.configureDatabase = configureDatabase;
 
-export function connectDatabase() {
+function connectDatabase() {
     try {
         db = new Database(dbFilePath);
-
         console.log('>> Connected to the database!');
-    } catch (e) {
+    }
+    catch (e) {
         console.log(e);
         throw e;
     }
 }
+exports.connectDatabase = connectDatabase;
 
-export function getLastRowsByDate(howMany: number, offset: number) {
+function getLastRowsByDate(howMany, offset) {
     return db.prepare(`SELECT * FROM posts ORDER BY date(date_created) DESC LIMIT ${howMany} OFFSET ${offset}`).all();
 }
+exports.getLastRowsByDate = getLastRowsByDate;

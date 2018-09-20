@@ -1,7 +1,7 @@
 var express = require('express');
 let router = express.Router();
 
-var api = require('../lib/api');
+var api = require('../helpers/api');
 
 router.get('/posts/', function (req, res) {
     let posts = req.query.howMany;
