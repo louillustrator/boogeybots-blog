@@ -3,10 +3,13 @@ let router = express.Router();
 
 var api = require('../lib/api');
 
-router.get('/posts/:quantity', function(req, res) {
+router.get('/posts/', function (req, res) {
+    let posts = req.query.howMany;
+    let offset = req.query.offset;
+
     res.status(200).send({
-        posts: api.getPosts(req.params['quantity'])
-    });
+        posts: api.getPosts(posts, offset)
+    })
 });
 
 module.exports = router;
