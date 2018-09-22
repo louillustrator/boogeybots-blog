@@ -10,8 +10,8 @@ function getPosts(howMany, offset = 0) {
             title: p['title'],
             description: p['description'],
             authors: p['authors'],
-            date: p['date'],
-            text: posts.getHtmlFromPost(p['filename'])
+            date: p['date_created'],
+            filename: p['filename']
         });
     });
     return results;
