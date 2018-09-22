@@ -18,14 +18,15 @@ function loadPosts() {
             data.posts.forEach((post) => {
                 $postholder.append(`
                     <div class="row">
-                        <div class="post">
-                            ${post.text}
-                            <ul>
-                                <li>Title: ${post.title}</li>
-                                <li>Description: ${post.description}</li>
-                                <li>Date: ${post.date}</li>
-                            </ul>
-                        </div>
+                        <a href="/posts/?post=${post.filename}" class="post">
+                            <div>
+                                <ul>
+                                    <li>Title: ${post.title}</li>
+                                    <li>Description: ${post.description}</li>
+                                    <li>Date: ${post.date}</li>
+                                </ul>
+                            </div>
+                        </a>
                     </div>
                 `);
                 postsOnPage++;
