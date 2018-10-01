@@ -1,6 +1,6 @@
 body {
   margin-top: 60px;
-  padding: 50px;
+  padding: 50px 30px;
   font: 1.2em "Ubuntu", Helvetica, Arial, sans-serif;
 }
 
@@ -15,4 +15,10 @@ a {
 
 .navbar:hover {
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.3);
+}
+
+.container {
+  box-shadow: 5px 4px 2px 4px #002780, 10px 8px 2px 6px #FBD10E, 15px 12px 2px 8px #CE0921;
+  padding: 10px 20px;
+  border-radius: 5px;
 }
