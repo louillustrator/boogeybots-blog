@@ -21,9 +21,9 @@ function loadPosts() {
                         <a href="/posts/?post=${post.filename}" class="post">
                             <div>
                                 <ul>
-                                    <li>Title: ${post.title}</li>
-                                    <li>Description: ${post.description}</li>
-                                    <li>Date: ${post.date}</li>
+                                    <h2>${post.title}</h2>
+                                    <p>${post.date}</p>
+                                    <p>${post.description}</p>
                                 </ul>
                             </div>
                         </a>

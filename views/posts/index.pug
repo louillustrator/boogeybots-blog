@@ -1,8 +1,13 @@
-extends ../layouts/posts-layout
+extends ../layouts/navbar-fixed-top-layout
+
+block head
+	link(rel='stylesheet' href='/stylesheets/posts.css')
 
 block content
-  .container
-    #postholder
+	.container
+		#postholder
 
-    button#loadmore.btn.btn-primary Load more...
+		button#loadmore.btn.btn-primary Load more...
 
+block bottom
+	script(src='/javascripts/posts.js')
