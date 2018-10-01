@@ -1,4 +1,33 @@
 extends layouts/navbar-fixed-top-layout
 
+block head
+	link(rel='stylesheet' href='/stylesheets/contact.css')
+
 block content
-  h1 Work In Progress
+	div.container
+		h2 Contact
+		p You can follow us on our social media pages and also chat or send an email.
+		div.contact-field
+			a(href='https://www.instagram.com/boogeybots/' target='_blank')
+				i.fab.fa-instagram
+				.
+					Instagram
+		div.contact-field
+			a(href='https://twitter.com/boogeybots' target='_blank')
+				i.fab.fa-twitter-square
+				.
+					Twitter
+		div.contact-field
+			a(href='https://www.facebook.com/BoogeyBots.team/' target='_blank')
+				i.fab.fa-facebook-square
+				.
+					Facebook
+		div.contact-field
+			a(href='mailto:boogeybots@gmail.com' target='_blank')
+				i.fas.fa-envelope-square
+				.
+					Gmail
+		h3 For Sponsors
+		p Coming soon
+
+
