@@ -67,3 +67,5 @@ database/blog\.db
 # Compiled css
 public/stylesheets/*.css
 public/stylesheets/*.css.map
+!public/stylesheets/bootstrap.css
+!public/stylesheets/bootstrap.min.css
