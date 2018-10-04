@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/config.js; node ./bin/www",
+    "start": "sass ./public/stylesheets/:./public/stylesheets/ && node ./bin/config.js && node ./bin/www",
     "test": "mocha"
   },
   "dependencies": {

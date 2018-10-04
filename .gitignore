@@ -63,3 +63,7 @@ typings/
 # JetBrains
 .idea/
 database/blog\.db
+
+# Compiled css
+public/stylesheets/*.css
+public/stylesheets/*.css.map
