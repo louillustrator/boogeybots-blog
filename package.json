@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/config.js; node ./bin/www",
+    "start": "./node_modules/.bin/sass ./public/stylesheets/:./public/stylesheets/ && node ./bin/config.js && node ./bin/www",
     "test": "mocha"
   },
   "dependencies": {
@@ -17,6 +17,7 @@
     "http-errors": "~1.6.2",
     "morgan": "~1.9.0",
     "pug": "2.0.0-beta11",
+    "sass": "^1.14.1",
     "showdown": "^1.8.6"
   },
   "devDependencies": {
